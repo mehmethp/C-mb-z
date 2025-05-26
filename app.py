@@ -19,14 +19,9 @@ from scanners.weak_password_scanner import test_weak_passwords
 from scanners.network_scanner import test_network_ports
 
 st.set_page_config(page_title="Cımbız", page_icon="🕵️‍♂️", layout="centered")
-st.markdown(
-    """
-    <div style='text-align: center;'>
-        <img src='assets/cimbiz_logo.png width='200'>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+col1, col2, col3 = st.columns([1, 2, 1])  # oranlar ayarlanabilir
+with col2:
+    st.image("assets/cimbiz_logo.png", width=300)
 st.markdown(
     "<h4 style='text-align: center; margin-top: -10px;'>GUI Web Güvenlik Açığı Tarayıcısı</h4>",
     unsafe_allow_html=True
