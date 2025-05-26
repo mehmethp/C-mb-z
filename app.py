@@ -1,45 +1,69 @@
+import base64
+import os
 import streamlit as st
 import time
 import socket
 from urllib.parse import urlparse
 from save_report import save_report
 
-# Mevcut + Yeni modüller
-from sqli_scanner import test_sql_injection
-from xss_scanner import test_xss
-from csrf_scanner import test_csrf
-from security_headers import check_security_headers
-from admin_panel_scanner import check_admin_panels
-from directory_traversal import check_directory_traversal
-from open_redirect import check_open_redirect
+from scanners.sqli_scanner import test_sql_injection
+from scanners.xss_scanner import test_xss
+from scanners.csrf_scanner import test_csrf
+from scanners.security_headers import check_security_headers
+from scanners.admin_panel_scanner import check_admin_panels
+from scanners.directory_traversal import check_directory_traversal
+from scanners.open_redirect import check_open_redirect
+from scanners.cmdi_scanner import test_cmd_injection
+from scanners.server_misconfig_scanner import test_server_misconfig
+from scanners.weak_password_scanner import test_weak_passwords
+from scanners.network_scanner import test_network_ports
 
-from cmdi_scanner import test_cmd_injection
-from server_misconfig_scanner import test_server_misconfig
-from weak_password_scanner import test_weak_passwords
-from network_scanner import test_network_ports
-
+# ✅ Sayfa ayarı
 st.set_page_config(page_title="Cımbız", page_icon="🕵️‍♂️", layout="centered")
-st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🕵️‍♂️ Cımbız</h1>", unsafe_allow_html=True)
-st.markdown("<h4 style='text-align: center;'>Gelişmiş Web Güvenlik Açığı Tarayıcısı</h4>", unsafe_allow_html=True)
+
+# ✅ Logo tam ortada
+st.markdown(
+    """
+    <div style='text-align: center;'>
+        <img src='assets/cimbiz_logo.png width='200'>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# ✅ Alt başlık
+st.markdown(
+    "<h4 style='text-align: center; margin-top: -10px;'>GUI Web Güvenlik Açığı Tarayıcısı</h4>",
+    unsafe_allow_html=True
+)
 st.write("---")
 
+
+# 🔧 Tarama Ayarları
 profile = st.selectbox("🛡️ Tarama Profili", ["High-Risk", "Critical-Risk", "DeepScan"])
 crawl_depth = st.slider("🌐 Tarama Derinliği (yakında aktif)", 1, 5, 2)
 threaded = st.checkbox("⚡ Çoklu iş parçacığı ile tarama (yakında)", value=False)
 no_prompt = st.checkbox("🤖 Otomasyon Modu (no-prompt)", value=True)
 
+# 🧩 Modül Seçimi
 st.markdown("### 🔧 Dahil Edilecek Testler")
 selected_tests = st.multiselect(
     "Hangi modülleri taramak istersiniz?",
     [
-        "SQL Injection", "XSS", "CSRF", "Security Headers", "Admin Panel", "Directory Traversal",
-        "Open Redirect", "Command Injection", "Server Misconfiguration", "Weak Passwords", "Network Vulnerabilities"
+        "SQL Injection", "XSS", "CSRF", "Security Headers", "Admin Panel",
+        "Directory Traversal", "Open Redirect", "Command Injection",
+        "Server Misconfiguration", "Weak Passwords", "Network Vulnerabilities"
     ],
-    default=["SQL Injection", "XSS", "CSRF", "Security Headers", "Admin Panel", "Directory Traversal", "Open Redirect"]
+    default=[
+        "SQL Injection", "XSS", "CSRF", "Security Headers", "Admin Panel",
+        "Directory Traversal", "Open Redirect"
+    ]
 )
 
+# 🌐 Hedef URL
 url = st.text_input("🌐 Test etmek istediğiniz web sitesi URL’sini girin", placeholder="Örn: http://example.com")
 
+# ▶️ Başlat Butonu
 if st.button("🚀 Taramayı Başlat"):
     if not url.strip():
         st.error("❗ Lütfen geçerli bir URL girin.")
@@ -48,7 +72,7 @@ if st.button("🚀 Taramayı Başlat"):
         st.info(f"📋 Seçilen Modüller: {', '.join(selected_tests)}")
         st.info(f"🌐 Tarama Derinliği: {crawl_depth}")
 
-        with st.spinner("Taranıyor..."):
+        with st.spinner("🔍 Taranıyor..."):
             time.sleep(1)
             results_dict = {}
 
@@ -78,7 +102,6 @@ if st.button("🚀 Taramayı Başlat"):
                     domain = parsed.netloc or parsed.path
                     results_dict["Network Vulnerabilities"] = test_network_ports(domain)
 
-                # Sonuç Gösterimi
                 for module, results in results_dict.items():
                     with st.expander(f"🔍 {module}"):
                         if results:
@@ -87,7 +110,6 @@ if st.button("🚀 Taramayı Başlat"):
                         else:
                             st.success("✅ Açık bulunamadı.")
 
-                # Rapor
                 report_file, report_content = save_report(url, results_dict)
                 st.success(f"📄 Rapor oluşturuldu: `{report_file}`")
                 st.download_button(
