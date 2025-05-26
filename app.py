@@ -18,10 +18,7 @@ from scanners.server_misconfig_scanner import test_server_misconfig
 from scanners.weak_password_scanner import test_weak_passwords
 from scanners.network_scanner import test_network_ports
 
-# ✅ Sayfa ayarı
 st.set_page_config(page_title="Cımbız", page_icon="🕵️‍♂️", layout="centered")
-
-# ✅ Logo tam ortada
 st.markdown(
     """
     <div style='text-align: center;'>
@@ -30,8 +27,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# ✅ Alt başlık
 st.markdown(
     "<h4 style='text-align: center; margin-top: -10px;'>GUI Web Güvenlik Açığı Tarayıcısı</h4>",
     unsafe_allow_html=True
@@ -39,13 +34,13 @@ st.markdown(
 st.write("---")
 
 
-# 🔧 Tarama Ayarları
+# Tarama Ayarları
 profile = st.selectbox("🛡️ Tarama Profili", ["High-Risk", "Critical-Risk", "DeepScan"])
 crawl_depth = st.slider("🌐 Tarama Derinliği (yakında aktif)", 1, 5, 2)
 threaded = st.checkbox("⚡ Çoklu iş parçacığı ile tarama (yakında)", value=False)
 no_prompt = st.checkbox("🤖 Otomasyon Modu (no-prompt)", value=True)
 
-# 🧩 Modül Seçimi
+# Modül Seçimi
 st.markdown("### 🔧 Dahil Edilecek Testler")
 selected_tests = st.multiselect(
     "Hangi modülleri taramak istersiniz?",
@@ -60,10 +55,10 @@ selected_tests = st.multiselect(
     ]
 )
 
-# 🌐 Hedef URL
+ # Hedef URL
 url = st.text_input("🌐 Test etmek istediğiniz web sitesi URL’sini girin", placeholder="Örn: http://example.com")
 
-# ▶️ Başlat Butonu
+# Başlat Butonu
 if st.button("🚀 Taramayı Başlat"):
     if not url.strip():
         st.error("❗ Lütfen geçerli bir URL girin.")
