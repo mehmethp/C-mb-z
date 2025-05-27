@@ -1,21 +1,21 @@
 import requests
 
-def test_server_misconfig(url):
-    endpoints = ["/.git/", "/phpinfo.php", "/.env", "/server-status"]
-    results = []
+SENSITIVE_PATHS = ["/.git/", "/phpinfo.php", "/.env", "/server-status", "/.htaccess", "/config.php", "/backup.zip"]
 
+def test_server_misconfig(url):
+    results = []
     try:
         headers = requests.get(url, timeout=5).headers
-        for header in headers:
-            if header.lower() in ["x-powered-by", "server"] and "apache" in headers[header].lower():
-                results.append(f"Gizlenmemiş başlık: {header}: {headers[header]}")
+        server_info = headers.get("Server", "") + headers.get("X-Powered-By", "")
+        if server_info:
+            results.append(f"⚠️ Sunucu bilgisi ifşa edilmiş: {server_info}")
 
-        for ep in endpoints:
-            resp = requests.get(url + ep, timeout=5)
-            if resp.status_code == 200:
-                results.append(f"Tehlikeli dosya veya yapılandırma erişilebilir: {url+ep}")
-
-    except:
+        for ep in SENSITIVE_PATHS:
+            test_url = url.rstrip("/") + ep
+            r = requests.get(test_url, timeout=5)
+            if r.status_code == 200 and len(r.text) > 20:
+                results.append(f"⚠️ Tehlikeli dosya veya yapılandırma erişilebilir: {test_url}")
+    except requests.RequestException:
         pass
 
     return results

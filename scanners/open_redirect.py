@@ -1,28 +1,19 @@
 import requests
 
-payloads = [
-    "http://evil.com",
-    "//evil.com",
-    "/\\evil.com"
+REDIRECT_PAYLOADS = [
+    "//google.com", "https://attacker.site", "http://malicious.com",
+    "///example.com", "//127.0.0.1:8080", "%2f%2fevil.com"
 ]
 
 def check_open_redirect(url):
-    vulnerabilities = []
-    
-    # URL'ye payload ekleyelim
-    for payload in payloads:
-        if "?" in url:
-            test_url = url + "&url=" + payload
-        else:
-            test_url = url + "?url=" + payload
-        
+    results = []
+    for payload in REDIRECT_PAYLOADS:
+        test_url = f"{url}?next={payload}"
         try:
-            response = requests.get(test_url, allow_redirects=False, timeout=5)
-            if "Location" in response.headers:
-                location = response.headers["Location"]
-                if "evil.com" in location:
-                    vulnerabilities.append(f"⚠️ Open Redirect Açığı Tespit Edildi: {test_url}")
-        except:
+            r = requests.get(test_url, allow_redirects=False, timeout=5)
+            location = r.headers.get("Location", "")
+            if any(p in location for p in REDIRECT_PAYLOADS):
+                results.append(f"⚠️ Açık yönlendirme tespit edildi: {test_url} -> {location}")
+        except requests.RequestException:
             continue
-    
-    return vulnerabilities
+    return results

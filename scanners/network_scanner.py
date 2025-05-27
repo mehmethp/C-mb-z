@@ -1,17 +1,17 @@
 import socket
 
-def test_network_ports(domain):
-    ports = [21, 22, 23, 25, 80, 443, 3306, 8080]
+COMMON_PORTS = [21, 22, 23, 25, 53, 80, 110, 143, 443, 445, 3306, 3389]
+
+def test_network_ports(host):
     open_ports = []
-
-    for port in ports:
+    for port in COMMON_PORTS:
         try:
-            s = socket.socket()
-            s.settimeout(1)
-            s.connect((domain.replace("http://", "").replace("https://", "").split("/")[0], port))
-            open_ports.append(f"Port {port} açık")
-            s.close()
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(0.5)
+            result = sock.connect_ex((host, port))
+            if result == 0:
+                open_ports.append(f"⚠️ Port {port} açık")
+            sock.close()
         except:
-            pass
-
+            continue
     return open_ports

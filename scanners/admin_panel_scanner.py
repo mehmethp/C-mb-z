@@ -1,17 +1,21 @@
 import requests
 
-admin_paths = ["/admin", "/login", "/wp-admin", "/administrator", "/panel"]
+COMMON_ADMIN_PATHS = [
+    "/admin", "/admin/login", "/administrator", "/login", "/panel",
+    "/adminpanel", "/wp-login.php", "/wp-admin", "/user/login"
+]
 
-def check_admin_panels(url):
+def check_admin_panels(base_url):
     vulnerabilities = []
-    
-    for path in admin_paths:
-        admin_url = url + path
+    base_url = base_url.rstrip("/")
+
+    for path in COMMON_ADMIN_PATHS:
+        test_url = base_url + path
         try:
-            response = requests.get(admin_url)
-            if response.status_code == 200:
-                vulnerabilities.append(f"⚠️ Açık Admin Paneli Bulundu: {admin_url}")
-        except:
-            pass
-    
+            response = requests.get(test_url, timeout=5)
+            if response.status_code == 200 and ("login" in response.text.lower() or "password" in response.text.lower()):
+                vulnerabilities.append(f"⚠️ Açık Admin Paneli Bulundu: {test_url}")
+        except requests.RequestException:
+            continue
+
     return vulnerabilities
