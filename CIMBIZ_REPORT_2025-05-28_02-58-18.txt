@@ -1,0 +1,48 @@
+🕵️ Cımbız Güvenlik Açığı Tarama Raporu
+Taranan URL: https://cimbizv3.streamlit.app/
+Tarih: 2025-05-28_02-58-18
+--------------------------------------------------
+
+🔍 Admin Panel:
+✅ Açık bulunamadı.
+----------------------------------------
+
+🔍 CSRF:
+✅ Açık bulunamadı.
+----------------------------------------
+
+🔍 Directory Traversal:
+✅ Açık bulunamadı.
+----------------------------------------
+
+🔍 SQLi:
+✅ Açık bulunamadı.
+----------------------------------------
+
+🔍 XSS:
+✅ Açık bulunamadı.
+----------------------------------------
+
+🔍 Server Misconfig:
+⚠️ ⚠️ Sunucu bilgisi ifşa edilmiş: nginx/1.27.4
+⚠️ ⚠️ Tehlikeli dosya veya yapılandırma erişilebilir: https://cimbizv3.streamlit.app/.git/
+⚠️ ⚠️ Tehlikeli dosya veya yapılandırma erişilebilir: https://cimbizv3.streamlit.app/phpinfo.php
+⚠️ ⚠️ Tehlikeli dosya veya yapılandırma erişilebilir: https://cimbizv3.streamlit.app/.env
+⚠️ ⚠️ Tehlikeli dosya veya yapılandırma erişilebilir: https://cimbizv3.streamlit.app/server-status
+⚠️ ⚠️ Tehlikeli dosya veya yapılandırma erişilebilir: https://cimbizv3.streamlit.app/.htaccess
+⚠️ ⚠️ Tehlikeli dosya veya yapılandırma erişilebilir: https://cimbizv3.streamlit.app/config.php
+⚠️ ⚠️ Tehlikeli dosya veya yapılandırma erişilebilir: https://cimbizv3.streamlit.app/backup.zip
+----------------------------------------
+
+🔍 Open Redirect:
+✅ Açık bulunamadı.
+----------------------------------------
+
+🔍 CMDi:
+✅ Açık bulunamadı.
+----------------------------------------
+
+🔍 Network Ports:
+⚠️ ⚠️ Port 80 açık
+⚠️ ⚠️ Port 443 açık
+----------------------------------------
