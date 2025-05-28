@@ -16,6 +16,8 @@ from scanners.cmdi_scanner import test_cmd_injection
 from scanners.server_misconfig_scanner import test_server_misconfig
 from scanners.network_scanner import test_network_ports
 
+st.set_page_config( page_title="Cımbız", page_icon="assets/cimbiz_logo.png")
+
 col1, col2, col3 = st.columns([1, 2, 1])  
 with col2:
     st.image("assets/cimbiz_logo.png", width=300)
